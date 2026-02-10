@@ -25,6 +25,13 @@ case "$1" in
     protonvpn disconnect
     ;;
 
+  "-s") # status
+    echo "--- VPN Status ---"
+    protonvpn info | sed -E "s/\{'name': '([^']+)'\}/Account: \1/"
+    echo "Public IP: $(curl -s https://ifconfig.me)"
+    echo "------------------"
+    ;;
+
   "-m") # menu
     PS3="Select a server number (or 'c' to cancel): "
     select s in "${SERVERS[@]}"; do
@@ -41,12 +48,25 @@ case "$1" in
     done
     ;;
 
+  "-p") # privacy
+    echo "Applying maximum privacy settings..."
+    protonvpn config set ipv6 off
+    protonvpn config set moderate-nat off
+    protonvpn config set kill-switch standard
+    protonvpn config set vpn-accelerator on
+    protonvpn config set netshield malware-ads-trackers
+    protonvpn config set custom-dns off
+    echo "Privacy configuration applied."
+    ;;
+
   "-h") # help
     echo "Usage: vpn [option]"
     echo "Options:"
     echo "  -l  List servers in the list"
     echo "  -d  Disconnect VPN"
+    echo "  -s  Show connection status and IP"
     echo "  -m  Selection menu for specific servers"
+    echo "  -p  Apply maximum privacy settings"
     echo "  -h  Show help information for commands"
     ;;
 
