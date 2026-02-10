@@ -47,12 +47,31 @@ Make the file executable:
 chmod +x vpn
 ```
 
-Run some commands:
+Run the commands:
 
+Connect to a random VPN server in the list:
 ```bash
 ~$ vpn
-~$ vpn --menu
-~$ vpn --disconnect
+```
+
+Disconnect from the current vpn connection:
+```bash
+~$ vpn -d
+```
+
+List all selected Secure Core Servers:
+```bash
+~$ vpn -l
+```
+
+Get a selection menu to connect to a specific server:
+```bash
+~$ vpn -d
+```
+
+Show all these commands in your terminal:
+```bash
+~$ vpn -h
 ```
 
 > **Important:** This also needs the ProtonVPN CLI installed. My tool is just a shortcut but not the main product:
