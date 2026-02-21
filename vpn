@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0"
+VERSION="1.1"
 
 # Nodes according to the official list: https://protonvpn.com/vpn-servers#secure-core
 # Secure Core Servers
@@ -31,6 +31,11 @@ COUNTRIES=(
 )
 
 case "$1" in
+  "-ch") # connect to random standard server in Switzerland
+    echo "Connecting to random server in: CH"
+    protonvpn connect --country "CH"
+    ;;
+
   "-c"|"-sc") # connect to random Secure Core server
     INDEX=$(( RANDOM % ${#CORE_SERVERS[@]} ))
     SELECTED="${CORE_SERVERS[$INDEX]}"
@@ -111,6 +116,7 @@ case "$1" in
     echo "Usage: vpn [option]"
     echo "Options:"
     echo "  (none) Connect to a random standard server in preferred countries"
+    echo "  -ch    Connect to a random standard server in Switzerland"
     echo "  -sc    Connect to a random Secure Core server"
     echo "  -d     Disconnect VPN"
     echo "  -l     List servers and countries"

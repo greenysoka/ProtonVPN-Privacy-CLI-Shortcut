@@ -73,6 +73,21 @@ greenysoka@fedora:~$
 
 ---
 
+### Connect to a random standard server in Switzerland:
+```bash
+~$ vpn -ch
+```
+
+Example:
+```bash
+greenysoka@fedora:~$ vpn -ch
+Connecting to random server in: CH
+Connected to CH#42 in Zurich, Switzerland. Your new IP address is 185.159.157.xx.
+greenysoka@fedora:~$
+```
+
+---
+
 ### Connect to a random Secure Core server:
 ```bash
 ~$ vpn -sc
@@ -213,6 +228,7 @@ ProtonVPN Privacy CLI Shortcut v1.0
 Usage: vpn [option]
 Options:
   (none) Connect to a random standard server in preferred countries
+  -ch    Connect to a random standard server in Switzerland
   -sc    Connect to a random Secure Core server
   -d     Disconnect VPN
   -l     List servers and countries
