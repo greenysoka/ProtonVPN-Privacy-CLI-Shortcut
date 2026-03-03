@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1"
+VERSION="1.2"
 
 # Nodes according to the official list: https://protonvpn.com/vpn-servers#secure-core
 # Secure Core Servers
@@ -31,19 +31,14 @@ COUNTRIES=(
 )
 
 case "$1" in
-  "-ch") # connect to random standard server in Switzerland
-    echo "Connecting to random server in: CH"
-    protonvpn connect --country "CH"
-    ;;
-
-  "-c"|"-sc") # connect to random Secure Core server
+  "-c"|"-sc")
     INDEX=$(( RANDOM % ${#CORE_SERVERS[@]} ))
     SELECTED="${CORE_SERVERS[$INDEX]}"
     echo "Selected Secure Core Server: $SELECTED"
     protonvpn connect "$SELECTED"
     ;;
 
-  "-l") # list
+  "-l")
     echo "--- Secure Core Servers ---"
     printf "%s\n" "${CORE_SERVERS[@]}"
     echo ""
@@ -51,19 +46,19 @@ case "$1" in
     printf "%s\n" "${COUNTRIES[@]}"
     ;;
 
-  "-d") # disconnect
+  "-d")
     echo "Disconnecting from ProtonVPN..."
     protonvpn disconnect
     ;;
 
-  "-s") # status
+  "-s")
     echo "--- VPN Status ---"
     protonvpn info | sed -E "s/\{'name': '([^']+)'\}/Account: \1/"
     echo "Public IP: $(curl -s https://ifconfig.me)"
     echo "------------------"
     ;;
 
-  "-m") # menu
+  "-m")
     echo "Select Mode:"
     echo "1) Secure Core Servers"
     echo "2) Standard Privacy Countries"
@@ -95,7 +90,7 @@ case "$1" in
     fi
     ;;
 
-  "-p") # privacy
+  "-p")
     echo "Applying maximum privacy settings..."
     protonvpn config set anonymous-crash-reports off
     protonvpn config set ipv6 off
@@ -107,16 +102,22 @@ case "$1" in
     echo "Privacy configuration applied."
     ;;
 
-  "-v") # version
+  "-v")
     echo "ProtonVPN Privacy CLI Shortcut v$VERSION"
     ;;
 
-  "-h") # help
+  -[a-zA-Z][a-zA-Z])
+    CODE=$(echo "${1:1}" | tr '[:lower:]' '[:upper:]')
+    echo "Connecting to random server in: $CODE"
+    protonvpn connect --country "$CODE"
+    ;;
+
+  "-h")
     echo "ProtonVPN Privacy CLI Shortcut v$VERSION"
     echo "Usage: vpn [option]"
     echo "Options:"
     echo "  (none) Connect to a random standard server in preferred countries"
-    echo "  -ch    Connect to a random standard server in Switzerland"
+    echo "  -[cc]  Connect to a random standard server in country [cc] (e.g., -lu, -us)"
     echo "  -sc    Connect to a random Secure Core server"
     echo "  -d     Disconnect VPN"
     echo "  -l     List servers and countries"
